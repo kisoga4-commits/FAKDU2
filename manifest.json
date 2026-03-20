@@ -1,0 +1,24 @@
+{
+  "name": "FAKDU v9.42 PRO - ระบบจัดการร้าน",
+  "short_name": "FAKDU",
+  "description": "ระบบ POS และจัดการร้านค้าออฟไลน์ 100%",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#b91c1c",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
