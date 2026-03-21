@@ -28,37 +28,34 @@
     <!--** install-banner close -->
 
     <!--* header open -->
-    <header class="glass-header relative flex justify-between items-center w-full gap-2">
-        <div class="flex items-center gap-4 w-[52%] z-10 min-w-0">
-            <div class="relative w-[68px] h-[68px] flex-shrink-0">
-                <div id="online-status-dot" class="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full border-2 border-white bg-green-500 shadow-sm z-20" title="Online"></div>
-                <img id="shop-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTYiIGZpbGw9IiNlNWU3ZWIiLz48dGV4dCB4PSI0MCIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnNpemU9IjE4IiBmaWxsPSIjOWNhM2FmIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiI+TE9HTzwvdGV4dD48L3N2Zz4=" class="w-full h-full object-cover rounded-[16px] border-2 border-white shadow-sm bg-white">
+    <header class="glass-header relative w-full">
+        <div class="header-main-row">
+            <div class="header-brand-group">
+                <div class="relative header-logo-wrap flex-shrink-0">
+                    <div id="online-status-dot" class="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full border-2 border-white bg-green-500 shadow-sm z-20" title="สถานะการเชื่อมต่อ"></div>
+                    <img id="shop-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiByeD0iMTYiIGZpbGw9IiNlNWU3ZWIiLz48dGV4dCB4PSI0MCIgeT0iNDYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnNpemU9IjE4IiBmaWxsPSIjOWNhM2FmIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiI+TE9HTzwvdGV4dD48L3N2Zz4=" class="w-full h-full object-cover rounded-[16px] border-2 border-white shadow-sm bg-white">
+                </div>
+                <div class="header-title-wrap min-w-0">
+                    <div class="header-title-line">
+                        <h1 id="display-shop-name" class="font-black text-[30px] leading-none text-white drop-shadow-md truncate">FAKDU</h1>
+                        <span class="header-version">FAKDU v9.46</span>
+                    </div>
+                    <div id="header-client-strip" class="flex items-center gap-1.5 min-h-[18px] mt-1">
+                        <div id="header-client-empty" class="text-[10px] font-bold text-white/60 hidden">ยังไม่มีเครื่องลูกออนไลน์</div>
+                        <div id="header-client-avatars" class="hidden items-center gap-1.5"></div>
+                    </div>
+                </div>
             </div>
-
-            <div class="min-w-0 flex-1">
-                <h1 id="display-shop-name" class="font-black text-[28px] leading-none text-white drop-shadow-md truncate">FAKDU</h1>
-                <div class="hidden">
-                    <span id="shop-connection-text">ONLINE</span>
-                    <span id="shop-status-mini">Master พร้อมใช้งาน</span>
-                </div>
-                <div id="header-client-strip" class="flex items-center gap-1.5 min-h-[18px] mt-1">
-                    <div id="header-client-empty" class="text-[10px] font-bold text-white/60 hidden">ยังไม่มีเครื่องลูกออนไลน์</div>
-                    <div id="header-client-avatars" class="hidden items-center gap-1.5"></div>
-                </div>
+            <div class="header-actions">
+                <button id="trial-badge" onclick="openProModal()" class="bg-yellow-400 text-black px-4 py-1.5 rounded-full text-[12px] font-black cursor-pointer shadow-lg">รุ่นทดลอง</button>
+                <button onclick="openClientEntryModal()" class="w-11 h-11 rounded-[16px] bg-white/95 text-gray-700 shadow-md text-lg active:scale-95 border border-white/70" title="เข้าโหมดเครื่องลูก">📱</button>
+                <div id="spy-bell" class="hidden w-11 h-11 rounded-[16px] bg-red-500 text-white shadow-md text-lg flex items-center justify-center animate-bounce" onclick="alert('มีการกระทำผิดปกติในระบบ')">🔔</div>
             </div>
         </div>
-
-        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center">
-            <button id="trial-badge" onclick="openProModal()" class="bg-yellow-400 text-black px-5 py-1.5 rounded-full text-[13px] font-black cursor-pointer shadow-lg animate-pulse">รุ่นทดลอง</button>
-        </div>
-
-        <div class="flex flex-col items-end justify-center w-[30%] gap-2 z-10 pr-2">
-            <div id="header-online-clients-mini" class="min-h-[18px] flex items-center gap-1"></div>
-            <div class="flex items-center gap-2">
-                <button onclick="openClientEntryModal()" class="w-12 h-12 rounded-[18px] bg-white/95 text-gray-700 shadow-md text-xl active:scale-95 border border-white/70" title="เข้าโหมดเครื่องลูก">📱</button>
-                <div id="spy-bell" class="hidden w-12 h-12 rounded-[18px] bg-red-500 text-white shadow-md text-lg flex items-center justify-center animate-bounce" onclick="alert('มีการกระทำผิดปกติในระบบ')">🔔</div>
-            </div>
-            <div class="text-right leading-tight text-[11px] font-black text-white/70 tracking-wide">FAKDU v9.46</div>
+        <div class="hidden">
+            <span id="shop-connection-text"></span>
+            <span id="shop-status-mini"></span>
+            <div id="header-online-clients-mini" class="min-h-[18px] items-center gap-1"></div>
         </div>
     </header>
     <!--** header close -->
@@ -68,7 +65,7 @@
         <div id="tab-customer" class="nav-tab active" onclick="switchTab('customer', this)">👨‍👩‍👦 ลูกค้า</div>
         <div id="tab-shop" class="nav-tab" onclick="switchTab('shop', this)">🧾 เช็คบิล</div>
         <div id="tab-manage" class="nav-tab" onclick="attemptAdmin('manage', this)">📊 หลังร้าน</div>
-        <div id="tab-system" class="nav-tab" onclick="attemptAdmin('system', this)">⚙️ ระบบ</div>
+        <div id="tab-system" class="nav-tab" onclick="attemptAdmin('system', this)">ระบบ</div>
     </div>
     <!--** nav close -->
 
@@ -79,10 +76,12 @@
                 <span class="text-[11px] font-bold text-gray-400 uppercase">จัดการโต๊ะ/คิว</span>
                 <div class="text-[10px] text-gray-400 font-bold mt-1 sr-only">กดโต๊ะเพื่อรับออร์เดอร์หรือดูรายการค้าง</div>
             </div>
-            <div class="flex gap-2 bg-white p-1 rounded-xl shadow-sm border border-gray-100">
-                <button onclick="changeGridZoom(1)" class="w-8 h-8 flex items-center justify-center bg-gray-50 text-gray-600 rounded-lg font-black text-lg active:scale-95">-</button>
-                <div class="w-8 h-8 flex items-center justify-center font-bold text-xs text-gray-400" id="zoom-level-text">M</div>
-                <button onclick="changeGridZoom(-1)" class="w-8 h-8 flex items-center justify-center bg-gray-50 text-gray-600 rounded-lg font-black text-lg active:scale-95">+</button>
+            <div class="zoom-toolbar">
+                <button onclick="changeGridZoom(-1)" class="zoom-btn" aria-label="ย่อการ์ด">-</button>
+                <button onclick="setGridZoom(1)" class="zoom-chip" data-zoom="1">S</button>
+                <button onclick="setGridZoom(2)" class="zoom-chip" data-zoom="2">M</button>
+                <button onclick="setGridZoom(3)" class="zoom-chip" data-zoom="3">L</button>
+                <button onclick="changeGridZoom(1)" class="zoom-btn" aria-label="ขยายการ์ด">+</button>
             </div>
         </div>
         <div id="grid-units" class="grid grid-cols-2 gap-4"></div>
@@ -123,7 +122,7 @@
         <div class="flex items-center justify-between mb-4">
             <div>
                 <h2 class="font-black text-2xl text-gray-800">คิวเช็คบิล</h2>
-                <p class="text-[11px] text-gray-500 font-bold">เครื่องลูกขอเช็คได้ แต่ปิดบิลจริงที่เครื่องแม่</p>
+                <p class="text-[11px] text-gray-500 font-bold">เครื่องลูกส่งคำขอเช็คบิลได้</p>
             </div>
             <div id="shop-request-count" class="bg-gray-100 text-gray-600 px-3 py-2 rounded-xl text-xs font-black">0 รายการ</div>
         </div>
@@ -220,7 +219,7 @@
             <div class="flex items-start justify-between gap-4 mb-5">
                 <div>
                     <h3 class="font-black text-slate-800 text-base mb-1">☁️ ตรวจข้อมูลเครื่องลูก</h3>
-                    <p class="text-[11px] text-gray-500 font-bold">Auto sync ตอน online และกดปุ่มนี้เพื่อตรวจว่าข้อมูลตรงกันจริงไหม</p>
+                    <p class="text-[11px] text-gray-500 font-bold">ซิงก์อัตโนมัติเมื่อออนไลน์ และกดเช็คได้ทันที</p>
                 </div>
                 <div id="master-online-chip" class="px-3 py-1.5 rounded-full text-[10px] font-black bg-gray-100 text-gray-500">IDLE</div>
             </div>
@@ -229,9 +228,9 @@
                 <div class="flex gap-3 items-center mb-3">
                     <div id="sync-qr-area" class="w-20 h-20 bg-white rounded-2xl flex items-center justify-center border shadow-inner overflow-hidden">QR</div>
                     <div class="flex-1">
-                        <p class="text-[10px] text-blue-500 font-bold uppercase mb-1">PIN/QR สำหรับเครื่องลูกเชื่อมต่อ</p>
+                        <p class="text-[10px] text-blue-500 font-bold uppercase mb-1">PIN/QR เชื่อมต่อเครื่องลูก</p>
                         <div id="display-sync-key" class="text-3xl font-mono text-slate-900 font-black tracking-[6px] leading-none">PIN</div>
-                        <p class="text-[10px] text-gray-400 font-bold mt-2">หลังสแกนหรือกรอก PIN เครื่องแม่ต้องกดยอมรับก่อน</p>
+                        <p class="text-[10px] text-gray-400 font-bold mt-2">สแกนแล้วรอเครื่องแม่อนุมัติ</p>
                     </div>
                 </div>
 
@@ -251,12 +250,12 @@
                 <div class="bg-gray-50 rounded-2xl p-4 border">
                     <div class="text-[10px] text-gray-400 font-bold uppercase mb-2">สถานะตรวจล่าสุด</div>
                     <div id="sync-check-status-text" class="font-black text-base text-gray-800">ยังไม่ได้ตรวจ</div>
-                    <div id="sync-check-status-hint" class="text-[11px] text-gray-500 font-bold mt-1">กดปุ่มเช็คเมื่อต้องการปิดร้านหรือเช็กความตรงกัน</div>
+                    <div id="sync-check-status-hint" class="text-[11px] text-gray-500 font-bold mt-1">กดเช็คเมื่ออยากยืนยันข้อมูลล่าสุด</div>
                 </div>
                 <div class="bg-gray-50 rounded-2xl p-4 border">
                     <div class="text-[10px] text-gray-400 font-bold uppercase mb-2">คำขอเครื่องลูก</div>
                     <div id="client-approval-count" class="font-black text-base text-gray-800">0 รายการ</div>
-                    <div class="text-[11px] text-gray-500 font-bold mt-1">รายการรออนุมัติจะขึ้นที่กล่องด้านล่าง</div>
+                    <div class="text-[11px] text-gray-500 font-bold mt-1">คำขอใหม่จะแสดงด้านล่าง</div>
                 </div>
             </div>
 
