@@ -1,7 +1,7 @@
 /* FAKDU v9.46 - sw.js */
 /* Offline-first service worker */
 
-const SW_VERSION = 'FAKDU-v9.46.1';
+const SW_VERSION = 'FAKDU-v9.46.2';
 const APP_CACHE = `fakdu-app-${SW_VERSION}`;
 const RUNTIME_CACHE = `fakdu-runtime-${SW_VERSION}`;
 const IMAGE_CACHE = `fakdu-images-${SW_VERSION}`;
