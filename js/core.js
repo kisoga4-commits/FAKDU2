@@ -25,7 +25,7 @@
     appliedOps: {}
   };
 
-  const state = { db: structuredClone(DEFAULT_DB), tab: 'customer', activeUnitId: null, gridZoom: 2, admin: localStorage.getItem(ADMIN_SESSION_KEY) === '1', pendingTab: null, channel: null };
+  const state = { db: structuredClone(DEFAULT_DB), tab: 'customer', activeUnitId: null, gridZoom: 2, admin: localStorage.getItem(ADMIN_SESSION_KEY) === '1', pendingTab: null, channel: null, masterQueue: [] };
 
   const $ = (id) => document.getElementById(id);
   const clone = (v) => JSON.parse(JSON.stringify(v));
@@ -125,11 +125,12 @@
 
   function renderMenu() {
     const list = $('menu-list'); if (!list) return;
-    list.innerHTML = state.db.items.map((it) => `<button class="menu" onclick="addToCart('${it.id}')">${it.img ? `<img src="${it.img}"/>` : ''}<div><b>${it.name}</b><small>฿${fmt(it.price)}</small></div></button>`).join('') || '<div class="card">ยังไม่มีเมนู</div>';
+    list.innerHTML = state.db.items.map((it) => `<button class="menu" onclick='addToCart(${JSON.stringify(it.id)})'>${it.img ? `<img src="${it.img}"/>` : ''}<div><b>${it.name}</b><small>฿${fmt(it.price)}</small></div></button>`).join('') || '<div class="card">ยังไม่มีเมนู</div>';
   }
 
   function addToCart(itemId) {
     const it = state.db.items.find((x) => x.id === itemId); if (!it || !state.activeUnitId) return;
+    if (!Array.isArray(state.db.carts[state.activeUnitId])) state.db.carts[state.activeUnitId] = [];
     const cart = state.db.carts[state.activeUnitId];
     let line = cart.find((r) => r.itemId === it.id);
     if (!line) { line = { id: rid('CRT'), itemId: it.id, name: it.name, qty: 0, price: Number(it.price || 0), total: 0 }; cart.push(line); }
@@ -147,8 +148,10 @@
 
   function renderCartBar() {
     const cart = state.activeUnitId ? (state.db.carts[state.activeUnitId] || []) : [];
-    $('cart-count').textContent = String(cart.reduce((s, r) => s + r.qty, 0));
+    const count = cart.reduce((s, r) => s + r.qty, 0);
+    $('cart-count').textContent = String(count);
     $('cart-total').textContent = fmt(cart.reduce((s, r) => s + r.total, 0));
+    $('send-order-btn')?.toggleAttribute('disabled', count <= 0);
   }
 
   function reviewCart() {
@@ -159,7 +162,24 @@
   }
   function closeReview() { $('review-modal').classList.add('hidden'); }
 
-  function confirmSendOrder() {
+  async function enqueueMasterAction(action) {
+    state.masterQueue.push(action);
+    await FakduDB.saveMasterOpQueue(state.masterQueue);
+  }
+
+  async function flushMasterQueue() {
+    if (!navigator.onLine || state.masterQueue.length === 0) return;
+    const approved = state.db.sync.clients.filter((c) => c.approved);
+    if (approved.length === 0) return;
+    const pending = [...state.masterQueue];
+    for (const action of pending) {
+      post({ type: 'MASTER_ACTION', payload: action });
+    }
+    state.masterQueue = [];
+    await FakduDB.saveMasterOpQueue(state.masterQueue);
+  }
+
+  async function confirmSendOrder() {
     const unit = state.db.units.find((u) => u.id === state.activeUnitId);
     const cart = state.db.carts[state.activeUnitId] || [];
     if (!unit || !cart.length) return;
@@ -168,8 +188,9 @@
     state.db.appliedOps[opId] = Date.now();
     cart.forEach((r) => unit.orders.push({ ...clone(r), id: rid('ORD'), createdAt: Date.now(), source: 'master' }));
     unit.startTime = unit.startTime || Date.now(); unit.status = 'active';
+    await enqueueMasterAction({ opId, type: 'APPEND_ORDER', unitId: state.activeUnitId, items: clone(cart), createdAt: Date.now() });
     state.db.carts[state.activeUnitId] = [];
-    closeReview(); save(true); switchTab('customer');
+    closeReview(); await save(true); await flushMasterQueue(); switchTab('customer');
   }
 
   function renderCheckout() {
@@ -342,6 +363,7 @@
     await FakduDB.ready();
     const raw = await FakduDB.load();
     state.db = ensureDb(raw);
+    state.masterQueue = await FakduDB.loadMasterOpQueue();
     const license = await FakduVault.isProActive(state.db);
     state.db.licenseActive = !!license;
     bindChannel();
@@ -353,7 +375,7 @@
     setInterval(() => { updateHeaderDots(); }, 2000);
   }
 
-  window.addEventListener('online', () => { updateHeaderDots(); broadcastSnapshot(); });
+  window.addEventListener('online', async () => { updateHeaderDots(); broadcastSnapshot(); await flushMasterQueue(); });
   window.addEventListener('offline', updateHeaderDots);
   document.addEventListener('DOMContentLoaded', init);
 
