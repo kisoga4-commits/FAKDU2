@@ -2,8 +2,8 @@
   'use strict';
 
   //* constants open
-  const APP_VERSION = '9.46';
-  const DB_NAME = 'FAKDU_V946_INDEXEDDB';
+  const APP_VERSION = '10.0.0';
+  const DB_NAME = 'FAKDU_V1000_INDEXEDDB';
   const DB_VERSION = 1;
 
   const STORE_KV = 'kv';
@@ -17,6 +17,7 @@
   const KEY_CLIENT_LAST_SYNC = 'client_last_sync';
   const KEY_DRAFTS = 'drafts';
   const KEY_SETTINGS_CACHE = 'settings_cache';
+  const KEY_MASTER_OP_QUEUE = 'master_op_queue';
 
   const META_DEVICE_ID = 'device_install_id';
   const META_CREATED_AT = 'created_at';
@@ -578,6 +579,8 @@
 
     loadSettingsCache,
     saveSettingsCache,
+    loadMasterOpQueue,
+    saveMasterOpQueue,
 
     requestPersistentStorage,
     estimateStorage,
