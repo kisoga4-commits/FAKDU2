@@ -435,6 +435,16 @@
     await kvSet(KEY_SETTINGS_CACHE, isObject(payload) ? jsonClone(payload) : {});
     return true;
   }
+
+  async function loadMasterOpQueue() {
+    const raw = await kvGet(KEY_MASTER_OP_QUEUE);
+    return Array.isArray(raw) ? jsonClone(raw) : [];
+  }
+
+  async function saveMasterOpQueue(queue) {
+    await kvSet(KEY_MASTER_OP_QUEUE, Array.isArray(queue) ? jsonClone(queue) : []);
+    return true;
+  }
   //* cache helpers close
 
   //* backup open
