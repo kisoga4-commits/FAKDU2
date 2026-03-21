@@ -372,12 +372,12 @@
       dot.classList.toggle('bg-red-500', !online);
     }
     if (chip) {
-      chip.textContent = online ? 'ONLINE' : 'OFFLINE';
+      chip.textContent = online ? 'เชื่อมต่ออยู่' : 'ออฟไลน์';
       chip.className = online
         ? 'text-[10px] font-black px-2 py-0.5 rounded-full bg-white/90 text-emerald-700'
         : 'text-[10px] font-black px-2 py-0.5 rounded-full bg-white/90 text-red-600';
     }
-    if (mini) mini.textContent = online ? 'พร้อมใช้งาน' : 'กำลังทำงานแบบออฟไลน์';
+    if (mini) mini.textContent = online ? 'พร้อมใช้งาน' : 'ออฟไลน์';
     if (systemChip) {
       systemChip.textContent = online ? 'MASTER ONLINE' : 'MASTER OFFLINE';
       systemChip.className = online
@@ -498,19 +498,25 @@
   //* tab close
 
   //* grid open
-  function changeGridZoom(direction) {
+  function setGridZoom(level) {
+    const next = Math.min(3, Math.max(1, Number(level) || 2));
+    if (state.gridZoom === next) return;
     playSound('click');
-    state.gridZoom += direction;
-    if (state.gridZoom < 1) state.gridZoom = 1;
-    if (state.gridZoom > 3) state.gridZoom = 3;
+    state.gridZoom = next;
     updateGridZoomUi();
     renderCustomerGrid();
   }
 
+  function changeGridZoom(direction) {
+    setGridZoom(state.gridZoom + Number(direction || 0));
+  }
+
   function updateGridZoomUi() {
-    const text = qs('zoom-level-text');
+    const chips = document.querySelectorAll('.zoom-chip[data-zoom]');
+    chips.forEach((chip) => {
+      chip.classList.toggle('active', Number(chip.dataset.zoom) === state.gridZoom);
+    });
     const grid = qs('grid-units');
-    if (text) text.textContent = state.gridZoom === 1 ? 'S' : state.gridZoom === 2 ? 'M' : 'L';
     if (!grid) return;
     grid.classList.remove('grid-cols-1', 'grid-cols-2', 'grid-cols-3');
     grid.classList.add(state.gridZoom === 1 ? 'grid-cols-3' : state.gridZoom === 2 ? 'grid-cols-2' : 'grid-cols-1');
@@ -543,7 +549,7 @@
         ? `ยอดรวม ฿${formatMoney(total)}`
         : cart.length > 0
           ? `ตะกร้า ฿${formatMoney(cartTotal)}`
-          : 'พร้อมรับออร์เดอร์';
+          : 'ว่าง';
       const timeText = unit.startTime ? formatDurationFrom(unit.startTime) : '-';
       return `
         <button onclick="openTable(${unit.id})" class="text-left p-4 rounded-[26px] border-2 shadow-sm transition active:scale-[0.98] ${getUnitCardClass(unit)}">
@@ -1897,6 +1903,7 @@
     attemptAdmin,
     verifyAdminPin,
     adminLogout,
+    setGridZoom,
     changeGridZoom,
     openTable,
     reviewCart,
